@@ -1,5 +1,6 @@
 <h1 align="center">Taskeitor :bookmark_tabs: </h1>
-  A Task Management application for create, read, and manage tasks 
+<p align="center"> A Task Management application for create, read, and manage tasks </p>
+
  Made using the following tecnologies: 
  * [ReactJS] - For the frontend and the web page!
  * [Node.js] - evented I/O for the backend
