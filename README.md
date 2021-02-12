@@ -1,6 +1,9 @@
 <h1 align="center">Taskeitor :bookmark_tabs: </h1>
 <p align="center"> A Task Management application for creating, read and manage tasks</p>
 
+
+### Table of Contents
+
 - [Technologies](#technologies)
 - [Installation](#installation)
   - [Server](#server)
@@ -16,13 +19,14 @@ Made using the following technologies:
    * [Express] - fast node.js network app framework 
    * [MongoDB] - Non-relational database
    * [Jest] - For unitaring testing on javascript
-   * And more...
+   * > And more...
  
  
  ### Installation
+
  <b>Taskeitor</b> requires <b>Node.js v4+</b>, and <b>ReactJS v16+ </b> to run.
  
- *The following instructions only work locally, for the deployment on the cloud the instructions change*
+ > *The following instructions only work locally, for the deployment on the cloud the instructions change*
  
  #### Server 
  Install the dependencies of the server and start it 
