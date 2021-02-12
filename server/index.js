@@ -1,8 +1,9 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+require('dotenv').config();
 const morgan = require('morgan');
-// require('../database/db');
+require('./database/db');
 
 app.use(morgan('dev'));
 app.use(express.json());
