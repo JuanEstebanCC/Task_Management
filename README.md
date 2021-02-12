@@ -24,7 +24,7 @@ Made using the following technologies:
  
  ### Installation
 
- <b>Taskeitor</b> requires <b>Node.js v4+</b>, and <b>ReactJS v16+ </b> to run.
+ <b>Taskeitor</b> requires <b>Node.js v10+</b>, and <b>ReactJS v12+ </b> to run.
  
  > *The following instructions only work locally, for the deployment on the cloud the instructions change*
  
