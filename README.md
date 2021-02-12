@@ -1,15 +1,12 @@
 <h1 align="center">Taskeitor :bookmark_tabs: </h1>
 <p align="center"> A Task Management application for creating, read and manage tasks</p>
 
-
 ### Table of Contents
 
 - [Technologies](#technologies)
 - [Installation](#installation)
   - [Server](#server)
   - [Client](#client)
-
-
 
 ### Technologies
 
