@@ -1,0 +1,16 @@
+.login-form {
+    background-color: #f8f8f8;
+
+    width: 50em;
+    height: 41em;
+}
+
+.container {
+    max-width: 2000px;
+    overflow: hidden;
+}
+
+
+.form-control {
+    padding: .705rem .80rem;
+}

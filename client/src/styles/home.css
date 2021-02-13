@@ -1,0 +1,44 @@
+.btn {
+
+    background-color: #000;
+    padding: 16px 40px;
+    display: inline-block;
+    min-width: 260px;
+    color: #fff;
+    text-align: center;
+    padding: 0.5em !important;
+    font-size: 1.4em;
+    border-radius: 0;
+}
+
+.btn:hover {
+    background-color: #00ff1d;
+}
+
+.text-main {
+    font-size: 3.4em;
+    font-weight: 620;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+footer {
+    background-color: #f8f8f8;
+}
+
+.footer-single {
+    width: 100%;
+    text-align: center;
+    padding: 20px 10px
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    overflow: auto;
+}
