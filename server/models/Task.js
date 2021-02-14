@@ -6,6 +6,8 @@ const todoSchema = new Schema({
     name: String,
     priority: Number,
     exp_date: Date
+},{
+    versionKey: false
 })
 
 module.exports = model('Todo', todoSchema);
