@@ -1,8 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import '../styles/signup.css';
 import { withRouter } from 'react-router-dom';
 
 function SignUp() {
+  const [datos, setDatos] = useState({
+    email: '',
+    password: '',
+    full_name: '',
+  });
+  const handleInputChange = (event) => {
+    setDatos({
+      ...datos,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const enviarMail = (event) => {
+    event.preventDefault();
+    
+    fetch(
+      'http://localhost:5004/signup',{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: datos.email,
+          password: datos.password,
+          full_name: datos.full_name
+        })  
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => setDatos(data))   
+   
+    fetch('http://localhost:5004/send_mail', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        to: datos.email,
+        subject: 'Wellcome to Taskeitor!  ' + datos.full_name,
+        username: datos.email,
+        password: datos.password,
+      }),
+    });
+  };
   return (
     <div>
       <div className='container'>
@@ -18,37 +63,60 @@ function SignUp() {
             />
           </div>
           <div className='col login-form'>
-            <h3 className='text-center p-5 m-2'>Sign up</h3>
-            <form>
-              <div class='form-row'>
-                <div class='form-group  p-3'>
-                  <label className="mb-2"  for='inputEmail4'>Email</label>
+          <div className='d-flex justify-content-center pt-2  '>
+          <img
+              src='https://i.ibb.co/gzX7qFr/logo.png'
+              width='140em'
+              height='120em'
+              className='img-fluid'
+              alt='Responsive '
+            />
+            </div>
+            <h3 className='text-center pb-4 m-2'>Sign up</h3>
+            <form onSubmit={enviarMail}>
+              <div className='form-row'>
+                <div className='form-group  p-3'>
+                  <label className='mb-2' htmlFor='inputEmail4'>
+                    Email
+                  </label>
                   <input
                     type='email'
-                    class='form-control'
+                    className='form-control'
+                    name='email'
+                    onChange={handleInputChange}
                     id='inputEmail4'
                     placeholder='Email'
                   />
                 </div>
-                <div class='form-group p-3'>
-                  <label className="mb-2"  for='inputPassword4'>Password</label>
+                <div className='form-group p-3'>
+                  <label className='mb-2' htmlFor='inputPassword4'>
+                    Password
+                  </label>
                   <input
                     type='password'
-                    class='form-control'
+                    className='form-control'
+                    name='password'
+                    onChange={handleInputChange}
                     id='inputPassword4'
                     placeholder='Password'
                   />
                 </div>
               </div>
-              <div class='form-group p-3'>
-                  <label className="mb-2" >Full name</label>
-              <input type="text" class="form-control" placeholder="Full Name"/>
+              <div className='form-group p-3'>
+                <label className='mb-2'>Full name</label>
+                <input
+                  type='text'
+                  className='form-control'
+                  name='full_name'
+                  onChange={handleInputChange}
+                  placeholder='Full Name'
+                />
               </div>
               <div className='d-flex justify-content-center'>
-                  <button type='submit' className='btn btn-primary m-4 h-25 w-25'>
-                    Submit
-                  </button>
-                </div>
+                <button type='submit' className='btn btn-primary m-4 h-25 w-25'>
+                  Submit
+                </button>
+              </div>
             </form>
           </div>
         </div>
