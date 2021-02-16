@@ -15,7 +15,6 @@ let transporter = nodemailer.createTransport(
     },
   })
 );
-//
 router.post('/send_mail', (req, res) => {
   let { to, subject, username, password } = req.body;
   contentHTML = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
