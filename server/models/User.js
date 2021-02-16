@@ -2,18 +2,19 @@ const { Schema, model } = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new Schema({
-  email:{
-    type: String, required:true,
-},
+  email: {
+    type: String,
+    required: true,
+  },
   password: {
-    type: String, required:true,
-},
+    type: String,
+    required: true,
+  },
   full_name: {
-    type: String, required:true,
-}
+    type: String,
+    required: true,
+  },
 });
-
-
 
 userSchema.methods.encryptPassword = async (password) => {
   const salt = await bcrypt.genSalt(10);

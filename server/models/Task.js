@@ -1,13 +1,16 @@
-const {Schema, model} = require('mongoose');
+const { Schema, model } = require('mongoose');
 
+const taskSchema = new Schema(
+  {
+    _id: { type: Schema.ObjectId },
+    taskImage: String,
+    taskName: String,
+    priority: {
+        type: Number,
+        enum: [1,2,3],
+    },
+    expDate: { type: String, default: Date } 
+  }
+);
 
-const todoSchema = new Schema({
-    image: String,
-    name: String,
-    priority: Number,
-    exp_date: Date
-},{
-    versionKey: false
-})
-
-module.exports = model('Todo', todoSchema);
+module.exports = model('Task', taskSchema);

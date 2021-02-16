@@ -9,7 +9,6 @@ const User = require('../models/User');
 
 router.post('/register', async (req, res, next) => {
   const { email, password, full_name } = req.body;
-  console.log(req.body.email, req.body.password, req.body.full_name);
   const newUser = new User({
     email,
     password,
@@ -20,11 +19,7 @@ router.post('/register', async (req, res, next) => {
   const token = jwt.sign({ id: newUser._id }, config.secret, {
     expiresIn: 60 * 60 * 24,
   });
-  res.json({ auth: true, token });
-
-  // res.json({ message: 'Hola', token });
-
-  // res.redirect('/login');
+  res.json({ auth: true, token, email });
 });
 
 router.post('/login', async (req, res, next) => {
@@ -43,7 +38,7 @@ router.post('/login', async (req, res, next) => {
   res.json({ auth: true, token, message: 'login' });
 });
 
-router.get('/dashboard', verifyToken, async (req, res, next) => {
+router.get('/user', verifyToken, async (req, res, next) => {
   const user = await User.findById(req.userId, { password: 0 });
   if (!user) {
     return res.status('404').send('No user found');

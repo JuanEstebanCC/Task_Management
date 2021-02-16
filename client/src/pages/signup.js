@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import '../styles/signup.css';
+
 import { withRouter } from 'react-router-dom';
 
 function SignUp() {
@@ -18,35 +18,44 @@ function SignUp() {
 
   const enviarMail = (event) => {
     event.preventDefault();
-    
-    fetch(
-      'http://localhost:5004/signup',{
+   
+    (async () => {
+      const rawResponse = await fetch('/register', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: datos.email,
           password: datos.password,
-          full_name: datos.full_name
-        })  
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => setDatos(data))   
-   
-    fetch('http://localhost:5004/send_mail', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        to: datos.email,
-        subject: 'Wellcome to Taskeitor!  ' + datos.full_name,
-        username: datos.email,
-        password: datos.password,
-      }),
-    });
+          full_name: datos.full_name,
+        }),
+      });
+      const content = await rawResponse.json();
+        console.log(content.token);
+        localStorage.setItem('token', content.token, { path: '/' });
+        window.location.href = '/dashboard';
+    })()
+    .then(() => {
+      fetch('/send_mail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: datos.email,
+          subject: 'Wellcome to Taskeitor!  ' + datos.full_name,
+          username: datos.email,
+          password: datos.password,
+        }),
+
+        
+      });
+      console.log('Mail send');
+    })
+
+    
   };
   return (
     <div>
@@ -63,14 +72,14 @@ function SignUp() {
             />
           </div>
           <div className='col login-form'>
-          <div className='d-flex justify-content-center pt-2  '>
-          <img
-              src='https://i.ibb.co/gzX7qFr/logo.png'
-              width='140em'
-              height='120em'
-              className='img-fluid'
-              alt='Responsive '
-            />
+            <div className='d-flex justify-content-center pt-2  '>
+              <img
+                src='https://i.ibb.co/gzX7qFr/logo.png'
+                width='140em'
+                height='120em'
+                className='img-fluid'
+                alt='Responsive '
+              />
             </div>
             <h3 className='text-center pb-4 m-2'>Sign up</h3>
             <form onSubmit={enviarMail}>

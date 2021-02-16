@@ -15,7 +15,7 @@ Made using the following technologies:
    * [Node.js] - evented I/O for the backend
    * [Express] - fast node.js network app framework 
    * [MongoDB] - Non-relational database
-   * [Jest] - For unitaring testing on javascript
+   * [Jest] - For unitaring testing on javascript (Not implement yet)
    * > And more...
  
  

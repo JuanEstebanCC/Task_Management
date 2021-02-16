@@ -15,31 +15,25 @@ function Login() {
   };
   const enviarDatos = (event) => {
     event.preventDefault();
-    console.log(datos);
-    fetch(
-      'http://localhost:5004/autenticar',{
+
+    (async () => {
+      const rawResponse = await fetch('/login', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: datos.email,
           password: datos.password
-        })
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => setDatos(data))
-      .then(() => {
-        console.log(datos)
-        let respuesta = datos[0];
-        console.log(respuesta)
-        fetch('http://localhost:5004/datos',{
-        method: 'GET'
-      }
-         
-        )
+        }),
       });
+
+      const content = await rawResponse.json();
+      console.log(content.token);
+      localStorage.setItem('token', content.token, { path: '/' });
+      window.location.href = '/dashboard';
+    })();
   };
 
   return (
