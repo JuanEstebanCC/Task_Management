@@ -76,13 +76,14 @@ function Manage() {
     e.preventDefault();
     console.log();
     const formData = new FormData();
+
     formData.append('taskImage', datosTask.taskImage);
     formData.append('taskName', datosTask.taskName);
     formData.append('priority', datosTask.priority);
     formData.append('expDate', datosTask.expDate);
-
+    readDatos.forEach((pruebaDato) => {
     axios
-      .put(`/edit_task/${readDatos[0]._id}`, formData)
+      .put(`/edit_task/${pruebaDato._id}`, formData)
       .then((res) => {
         console.log(res);
       })
@@ -90,6 +91,7 @@ function Manage() {
         console.log(err);
       });
     window.location.reload();
+    })
   };
 
   const deleteTask = (event) => {
