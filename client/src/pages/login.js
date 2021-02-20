@@ -28,10 +28,10 @@ function Login() {
           password: datos.password
         }),
       });
-
       const content = await rawResponse.json();
       console.log(content.token);
       localStorage.setItem('token', content.token, { path: '/' });
+      localStorage.setItem('id', content.id, { path: '/' });
       window.location.href = '/dashboard';
     })();
   };

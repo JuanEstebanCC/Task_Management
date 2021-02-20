@@ -33,27 +33,26 @@ function SignUp() {
         }),
       });
       const content = await rawResponse.json();
-        console.log(content.token);
+        console.log(content);
         localStorage.setItem('token', content.token, { path: '/' });
+        localStorage.setItem('id', content.id, { path: '/' });
         window.location.href = '/dashboard';
     })()
-    .then(() => {
-      fetch('/send_mail', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          to: datos.email,
-          subject: 'Wellcome to Taskeitor!  ' + datos.full_name,
-          username: datos.email,
-          password: datos.password,
-        }),
-
-        
-      });
-      console.log('Mail send');
-    })
+    // .then(() => {
+    //   fetch('/send_mail', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //       to: datos.email,
+    //       subject: 'Wellcome to Taskeitor!  ' + datos.full_name,
+    //       username: datos.email,
+    //       password: datos.password,
+    //     }),
+    //   });
+    //   console.log('Mail send');
+    // })
 
     
   };

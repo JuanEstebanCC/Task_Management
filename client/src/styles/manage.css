@@ -50,10 +50,39 @@ body {
 
 }
 
+.logout-button {
+    position: fixed;
+    top: 1rem;
+    right: 2.1rem;
+    display: inline-flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 40px;
+    padding: 0.5rem 1rem;
+    font: inherit;
+    color: inherit;
+    text-decoration: none;
+    background-color: rgb(255, 255, 255);
+    border: 0px;
+    border-radius: 25px;
+    box-shadow: rgb(0 0 0 / 13%) 0px 0px 13px 0px;
+    cursor: pointer;
+    z-index: 0;
+}
+.logout-button:hover {
+
+    color: white;
+    text-decoration: none;
+    background-color: red;
+    z-index: 0;
+}
+
 .email-user {
     position: fixed;
     font-style: italic;
-    font-size:smaller;
+    font-size: smaller;
     font-weight: 100;
     bottom: 1rem;
     right: 1rem;

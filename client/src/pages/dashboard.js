@@ -14,10 +14,24 @@ function Dashboard() {
       expDate: '',
     },
   ]);
+  function borrarDatosStorage() {
+    localStorage.removeItem('id');
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
+
 
   const token = localStorage.getItem('token');
+  const id = localStorage.getItem('id');
   useEffect(() => {
-    fetch(`/tasks`)
+    fetch(`/tasks/${id}`, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+     
+    })
       .then((response) => response.json())
       .then((data) => setReadDatos(data));
     console.log(readDatos);
@@ -46,6 +60,7 @@ function Dashboard() {
     formData.append('taskName', datosTask.taskName);
     formData.append('priority', datosTask.priority);
     formData.append('expDate', datosTask.expDate);
+    formData.append('id', id);
 
     axios
       .post('/new_task', formData)
@@ -221,6 +236,9 @@ function Dashboard() {
             💼 Manage
           </a>
         </div>
+        <button className='logout-button' onClick={borrarDatosStorage}>
+          Log out
+        </button>   
         <span class='email-user'>{datos.email}</span>
       </footer>
     </body>

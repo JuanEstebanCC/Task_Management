@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(require('./send_mail/send_mail'));
+app.use(require('./controllers/send_mail/send_mail'));
 app.use('/public', express.static('public'));
 app.use(require('./controllers/authController'));
 app.use(require('./controllers/taskController'))

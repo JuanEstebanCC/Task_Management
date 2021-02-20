@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Modal from 'react-modal';
 import axios from 'axios';
+
 import '../styles/manage.css';
 
 Modal.setAppElement('#root');
@@ -11,7 +12,7 @@ function Manage() {
   const [isOpen2, setIsOpen2] = useState(false);
 
   const [datos, setdatos] = useState([{}]);
-
+  const id = localStorage.getItem('id');
   const token = localStorage.getItem('token');
 
   const [readDatos, setReadDatos] = useState([
@@ -21,15 +22,20 @@ function Manage() {
       taskName: '',
       priority: '',
       expDate: '',
+      autor: '',
     },
   ]);
+  function borrarDatosStorage() {
+    localStorage.removeItem('id');
+    localStorage.removeItem('token');
+    window.location.href = '/';
+  }
 
   useEffect(() => {
-    fetch(`/tasks`)
+    fetch(`/tasks/${id}`)
       .then((response) => response.json())
       .then((data) => setReadDatos(data));
   }, []);
-
 
   useEffect(() => {
     (async () => {
@@ -44,7 +50,6 @@ function Manage() {
         .then((response) => response.json())
         .then((data) => setdatos(data));
     })();
-
   }, []);
 
   function toggleModal() {
@@ -60,7 +65,18 @@ function Manage() {
     taskName: '',
     priority: '',
     expDate: '',
+    autor: '',
   });
+  const [readDato, setReadDato] = useState({
+    _id: '',
+  });
+
+  const handleSetID = (e) => {
+    setReadDato({
+      ...readDato,
+      [e.target.name]: e.target.value,
+    });
+  };
   const handleInputChange = (event) => {
     setDatosTask({
       ...datosTask,
@@ -71,50 +87,41 @@ function Manage() {
     setDatosTask({ ...datosTask, taskImage: e.target.files[0] });
   };
 
-
   const handleSubmitEdit = (e) => {
     e.preventDefault();
-    console.log();
-    const formData = new FormData();
+    console.log(readDato);
+    // const formData = new FormData();
 
-    formData.append('taskImage', datosTask.taskImage);
-    formData.append('taskName', datosTask.taskName);
-    formData.append('priority', datosTask.priority);
-    formData.append('expDate', datosTask.expDate);
-    readDatos.forEach((pruebaDato) => {
-    axios
-      .put(`/edit_task/${pruebaDato._id}`, formData)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    window.location.reload();
-    })
+    // formData.append('taskImage', datosTask.taskImage);
+    // formData.append('taskName', datosTask.taskName);
+    // formData.append('priority', datosTask.priority);
+    // formData.append('expDate', datosTask.expDate);
+
+    //   axios
+    //     .put(`/edit_task/`, formData)
+    //     .then((res) => {
+    //       console.log(res);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    //   window.location.reload();
   };
 
-  const deleteTask = (event) => {
-    event.preventDefault();
-
-    readDatos.forEach((pruebaDato) => {
-      console.log('Canción dentro de función flecha anónima: ', pruebaDato._id);
-      (async () => {
-        const rawResponse = await fetch(`/delete_task/${pruebaDato._id}`, {
-          method: 'DELETE',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        });
-        const content = await rawResponse.json();
-        window.location.reload();
-        console.log(content);
-      })();
-    });
+  const deleteTask = (id_nota) => {
+    try {
+      axios.delete(`/delete_task/${id_nota}`);
+      console.log(id_nota);
+      window.location.reload();
+      // window.location = `/inicio/${id}`
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <body className='bg-light'>
+     
+ 
       <div className='d-flex justify-content-center p-2  '>
         <img
           src='https://i.ibb.co/gzX7qFr/logo.png'
@@ -125,7 +132,9 @@ function Manage() {
         />
       </div>
       <div className='d-flex justify-content-center align-items-center m-5 pt-5'>
+       
         <div className='card-manage '>
+          
           <div class='card-header h5'>Edit your task's</div>
           <Modal
             isOpen={isOpen}
@@ -136,6 +145,8 @@ function Manage() {
             <span className='text-center d-flex justify-content-center align-items-center font-weight-bolder h5'>
               Edit your tasks
             </span>
+         
+   
             <div className='d-flex justify-content-center align-items-center p-4 pb-0  pt-0 m-4'>
               <form onSubmit={handleSubmitEdit} encType='multipart/form-data'>
                 <div class='form-row'>
@@ -208,25 +219,8 @@ function Manage() {
             </div>
           </Modal>
 
-          <Modal
-            isOpen={isOpen2}
-            onRequestClose={toggleModal2}
-            contentLabel='My dialog'
-            className='mymodal'
-            overlayClassName='myoverlay'>
-            <div className='text-center font-weight-bold h4'>
-              ¿Are you sure?
-            </div>
-            <div className='d-flex justify-content-center align-items-center m-2'>
-              <button onClick={deleteTask} className='button-modal-change m-3'>
-                Yes
-              </button>
-              <button onClick={toggleModal2} className='button-modal-close m-3'>
-                No
-              </button>
-            </div>
-          </Modal>
           {readDatos.map(function (readDato, index, array) {
+            const id_Task = readDato._id;
             return (
               <ul class='list-group list-group-flush p-3 m-1'>
                 <li class='list-group-item'>
@@ -236,6 +230,7 @@ function Manage() {
                       class=' btn-success btn-sm rounded-lg'
                       type='button'
                       data-toggle='tooltip'
+                      onload={handleSetID}
                       onClick={toggleModal}
                       data-placement='top'
                       title='Edit'>
@@ -247,7 +242,7 @@ function Manage() {
                       class=' btn-danger btn-sm rounded-lg'
                       type='button'
                       data-toggle='tooltip'
-                      onClick={toggleModal2}
+                      onClick={() => deleteTask(readDato._id)}
                       data-placement='top'
                       title='Delete'>
                       <i class='fa fa-trash' aria-hidden='true'></i>
@@ -262,7 +257,13 @@ function Manage() {
       <a href='/dashboard' className='button-manage'>
         &#128203; Dashboard
       </a>
+     
       <span class='email-user'>{datos.email}</span>
+      
+      <button className='logout-button' onClick={borrarDatosStorage}>
+          Log out
+        </button>   
+     
     </body>
   );
 }

@@ -16,10 +16,11 @@ router.post('/register', async (req, res, next) => {
   });
   newUser.password = await newUser.encryptPassword(newUser.password);
   await newUser.save();
+  const id = newUser._id;
   const token = jwt.sign({ id: newUser._id }, config.secret, {
     expiresIn: 60 * 60 * 24,
   });
-  res.json({ auth: true, token, email });
+  res.json({ auth: true, token, email, id });
 });
 
 router.post('/login', async (req, res, next) => {
@@ -32,10 +33,11 @@ router.post('/login', async (req, res, next) => {
   if (!passwordIsValid) {
     return res.status(404).status({ auth: false, token: null });
   }
+  const id = user._id;
   const token = jwt.sign({ id: user._id }, config.secret, {
     expiresIn: 60 * 60 * 24,
   });
-  res.json({ auth: true, token, message: 'login' });
+  res.json({ auth: true, token, message: 'login', id });
 });
 
 router.get('/user', verifyToken, async (req, res, next) => {

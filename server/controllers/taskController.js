@@ -38,13 +38,14 @@ var upload = multer({
 });
 
 router.post('/new_task', upload.single('taskImage'), (req, res, next) => {
-  const url = req.protocol + '://' + req.get('host');
+  const url = req.protocol + '://' + req.get('host'); 
   const newTask = new Task({
     _id: new mongoose.Types.ObjectId(),
     taskName: req.body.taskName,
     priority: req.body.priority,
     expDate: req.body.expDate,
     taskImage: url + '/public/images/' + req.file.filename,
+    autor: req.body.id 
   });
   newTask
     .save()
@@ -108,8 +109,9 @@ router.delete('/delete_task/:id', async (req, res) => {
   res.json({ message: 'Task deleted', task });
 });
 
-router.get('/tasks', async (req, res) => {
-  const alumnos = await Task.find().sort('-_id');
+router.get('/tasks/:id', async (req, res) => {
+  const { id } = req.params;
+  const alumnos = await Task.find({ autor: `${id}` }).sort('-_id');
   res.json(alumnos);
 });
 
