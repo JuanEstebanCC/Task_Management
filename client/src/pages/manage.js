@@ -55,10 +55,7 @@ function Manage() {
   function toggleModal() {
     setIsOpen(!isOpen);
   }
-  function toggleModal2() {
-    setIsOpen2(!isOpen2);
-    console.log(readDatos);
-  }
+
 
   const [datosTask, setDatosTask] = useState({
     taskImage: '',
@@ -71,10 +68,9 @@ function Manage() {
     _id: '',
   });
 
-  const handleSetID = (e) => {
+  const handleSetID = (id) => {
     setReadDato({
-      ...readDato,
-      [e.target.name]: e.target.value,
+      _id: id
     });
   };
   const handleInputChange = (event) => {
@@ -89,23 +85,22 @@ function Manage() {
 
   const handleSubmitEdit = (e) => {
     e.preventDefault();
-    console.log(readDato);
-    // const formData = new FormData();
+    const formData = new FormData();
 
-    // formData.append('taskImage', datosTask.taskImage);
-    // formData.append('taskName', datosTask.taskName);
-    // formData.append('priority', datosTask.priority);
-    // formData.append('expDate', datosTask.expDate);
+    formData.append('taskImage', datosTask.taskImage);
+    formData.append('taskName', datosTask.taskName);
+    formData.append('priority', datosTask.priority);
+    formData.append('expDate', datosTask.expDate);
 
-    //   axios
-    //     .put(`/edit_task/`, formData)
-    //     .then((res) => {
-    //       console.log(res);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    //   window.location.reload();
+      axios
+        .put(`/edit_task/${readDato._id}`, formData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      window.location.reload();
   };
 
   const deleteTask = (id_nota) => {
@@ -120,8 +115,6 @@ function Manage() {
   };
   return (
     <body className='bg-light'>
-     
- 
       <div className='d-flex justify-content-center p-2  '>
         <img
           src='https://i.ibb.co/gzX7qFr/logo.png'
@@ -132,9 +125,7 @@ function Manage() {
         />
       </div>
       <div className='d-flex justify-content-center align-items-center m-5 pt-5'>
-       
         <div className='card-manage '>
-          
           <div class='card-header h5'>Edit your task's</div>
           <Modal
             isOpen={isOpen}
@@ -145,8 +136,7 @@ function Manage() {
             <span className='text-center d-flex justify-content-center align-items-center font-weight-bolder h5'>
               Edit your tasks
             </span>
-         
-   
+
             <div className='d-flex justify-content-center align-items-center p-4 pb-0  pt-0 m-4'>
               <form onSubmit={handleSubmitEdit} encType='multipart/form-data'>
                 <div class='form-row'>
@@ -220,7 +210,6 @@ function Manage() {
           </Modal>
 
           {readDatos.map(function (readDato, index, array) {
-            const id_Task = readDato._id;
             return (
               <ul class='list-group list-group-flush p-3 m-1'>
                 <li class='list-group-item'>
@@ -230,8 +219,8 @@ function Manage() {
                       class=' btn-success btn-sm rounded-lg'
                       type='button'
                       data-toggle='tooltip'
-                      onload={handleSetID}
-                      onClick={toggleModal}
+
+                      onClick={function(event){ toggleModal(event); handleSetID(readDato._id)}}
                       data-placement='top'
                       title='Edit'>
                       <i class='fa fa-pencil' aria-hidden='true'></i>
@@ -257,13 +246,12 @@ function Manage() {
       <a href='/dashboard' className='button-manage'>
         &#128203; Dashboard
       </a>
-     
+
       <span class='email-user'>{datos.email}</span>
-      
+
       <button className='logout-button' onClick={borrarDatosStorage}>
-          Log out
-        </button>   
-     
+        Log out
+      </button>
     </body>
   );
 }
