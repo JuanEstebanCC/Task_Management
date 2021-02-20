@@ -21,6 +21,7 @@ router.post('/register', async (req, res, next) => {
     expiresIn: 60 * 60 * 24,
   });
   res.json({ auth: true, token, email, id });
+
 });
 
 router.post('/login', async (req, res, next) => {
