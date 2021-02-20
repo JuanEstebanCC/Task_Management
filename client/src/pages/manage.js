@@ -28,6 +28,7 @@ function Manage() {
   function borrarDatosStorage() {
     localStorage.removeItem('id');
     localStorage.removeItem('token');
+    localStorage.removeItem('mi_autentificacion');
     window.location.href = '/';
   }
 
@@ -56,7 +57,6 @@ function Manage() {
     setIsOpen(!isOpen);
   }
 
-
   const [datosTask, setDatosTask] = useState({
     taskImage: '',
     taskName: '',
@@ -70,7 +70,7 @@ function Manage() {
 
   const handleSetID = (id) => {
     setReadDato({
-      _id: id
+      _id: id,
     });
   };
   const handleInputChange = (event) => {
@@ -92,15 +92,15 @@ function Manage() {
     formData.append('priority', datosTask.priority);
     formData.append('expDate', datosTask.expDate);
 
-      axios
-        .put(`/edit_task/${readDato._id}`, formData)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      window.location.reload();
+    axios
+      .put(`/edit_task/${readDato._id}`, formData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    window.location.reload();
   };
 
   const deleteTask = (id_nota) => {
@@ -219,8 +219,10 @@ function Manage() {
                       class=' btn-success btn-sm rounded-lg'
                       type='button'
                       data-toggle='tooltip'
-
-                      onClick={function(event){ toggleModal(event); handleSetID(readDato._id)}}
+                      onClick={function (event) {
+                        toggleModal(event);
+                        handleSetID(readDato._id);
+                      }}
                       data-placement='top'
                       title='Edit'>
                       <i class='fa fa-pencil' aria-hidden='true'></i>

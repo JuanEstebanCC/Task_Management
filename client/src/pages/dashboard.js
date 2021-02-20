@@ -17,9 +17,9 @@ function Dashboard() {
   function borrarDatosStorage() {
     localStorage.removeItem('id');
     localStorage.removeItem('token');
+    localStorage.removeItem('mi_autentificacion');
     window.location.href = '/';
   }
-
 
   const token = localStorage.getItem('token');
   const id = localStorage.getItem('id');
@@ -30,7 +30,6 @@ function Dashboard() {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-     
     })
       .then((response) => response.json())
       .then((data) => setReadDatos(data));
@@ -238,7 +237,7 @@ function Dashboard() {
         </div>
         <button className='logout-button' onClick={borrarDatosStorage}>
           Log out
-        </button>   
+        </button>
         <span class='email-user'>{datos.email}</span>
       </footer>
     </body>

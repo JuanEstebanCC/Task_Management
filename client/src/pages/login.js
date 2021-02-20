@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import '../styles/login.css';
 import { withRouter } from 'react-router-dom';
+import useAuthContext from '../hooks/useContext'
+
 
 function Login() {
+     const {login} = useAuthContext();
+
+
   const [datos, setDatos] = useState({
     email: '',
     password: '',
@@ -32,6 +37,7 @@ function Login() {
       console.log(content.token);
       localStorage.setItem('token', content.token, { path: '/' });
       localStorage.setItem('id', content.id, { path: '/' });
+      login();
       window.location.href = '/dashboard';
     })();
   };
