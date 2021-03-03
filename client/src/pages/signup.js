@@ -36,7 +36,7 @@ function SignUp() {
         console.log(content);
         localStorage.setItem('token', content.token, { path: '/' });
         localStorage.setItem('id', content.id, { path: '/' });
-        window.location.href = '/login';
+        window.location.href = '/dashboard';
     })()
     .then(() => {
       fetch('/send_mail', {
